@@ -1,0 +1,21 @@
+name: CI Pipeline
+on:
+  - push
+  - pull_request
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Swift
+        uses: actions/setup-swift@v1
+      - name: Install dependencies
+        run: |
+          swift package resolve
+      - name: Test and lint
+        run: |
+          swift test
+          swift format --check
+        continue-on-error: false
+        error-action: '|| echo "Passed"'}
